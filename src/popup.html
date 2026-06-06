@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RTL AI</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-2: #8b5cf6;
+      --green: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 300px;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .logo {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px; color: #fff;
+    }
+    .title { font-size: 15px; font-weight: 700; }
+    .subtitle { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .row-label { font-size: 13px; font-weight: 600; }
+    .row-desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    /* switch */
+    .switch { position: relative; width: 46px; height: 26px; flex: none; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; inset: 0;
+      background: #475569; border-radius: 999px;
+      transition: .25s; cursor: pointer;
+    }
+    .slider::before {
+      content: ""; position: absolute;
+      height: 20px; width: 20px; left: 3px; top: 3px;
+      background: #fff; border-radius: 50%; transition: .25s;
+    }
+    input:checked + .slider { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+    input:checked + .slider::before { transform: translateX(20px); }
+
+    .sites {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .sites b { color: var(--text); font-weight: 600; }
+    .footer {
+      margin-top: 14px; text-align: center;
+      font-size: 10px; color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">RTL</div>
+    <div>
+      <div class="title">RTL for AI Sites</div>
+      <div class="subtitle">Right-to-left for AI chats</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <div class="row-label">Enable RTL</div>
+      <div class="row-desc">Smart Persian/English detection</div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-enabled" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="row">
+    <div>
+      <div class="row-label">Persian font</div>
+      <div class="row-desc">Vazirmatn and system fonts</div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-font" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="sites">
+    <b>Supported sites:</b><br>
+    Claude · ChatGPT · Gemini · Grok · DeepSeek · Perplexity · Copilot · Poe · Arena
+  </div>
+
+  <div class="footer">Refresh an open tab to apply changes</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

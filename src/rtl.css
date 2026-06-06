@@ -1,0 +1,105 @@
+/* ============================================================
+   RTL for AI Sites
+   All rules are scoped to <html class="rtl-ai-enabled">.
+   The core direction is set inline by content.js; this file adds
+   alignment, lists, code, and font rules.
+   ============================================================ */
+
+:root {
+  --rtl-ai-font:
+    "Vazirmatn", "Vazir", "Sahel", "Shabnam", "IRANSans",
+    "IRANYekan", "Tahoma", "Segoe UI", system-ui, sans-serif;
+}
+
+/* ---- Persian font (only when the font class is active) ----
+   Scope the font ONLY to the text blocks we explicitly tagged
+   (.rtl-ai-rtl / .rtl-ai-ltr) and the input box. We do NOT apply it to
+   whole containers or every descendant, so site chrome/buttons keep
+   their own fonts. Icon elements are additionally hard-locked to their
+   icon font by content.js using inline !important (which beats this
+   stylesheet), so icons never turn into raw text like "mic"/"tune". */
+html.rtl-ai-font .rtl-ai-rtl,
+html.rtl-ai-font .rtl-ai-ltr,
+html.rtl-ai-font textarea,
+html.rtl-ai-font [contenteditable="true"],
+html.rtl-ai-font [role="textbox"] {
+  font-family: var(--rtl-ai-font) !important;
+}
+
+/* Keep code blocks in a monospace font even when Persian font is on */
+html.rtl-ai-font pre,
+html.rtl-ai-font code,
+html.rtl-ai-font pre *,
+html.rtl-ai-font code * {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !important;
+}
+
+/* ---- RTL blocks ----
+   NOTE: we use unicode-bidi: isolate, NOT plaintext. plaintext
+   recomputes the base direction from the first strong character and
+   would override our direction: rtl, which is why a paragraph that
+   starts with an English word used to flip to LTR. With isolate, the
+   paragraph's base direction stays RTL and embedded English words are
+   laid out correctly. */
+html.rtl-ai-enabled .rtl-ai-rtl {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: isolate !important;
+}
+
+/* ---- LTR blocks (pure English) ---- */
+html.rtl-ai-enabled .rtl-ai-ltr {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: isolate !important;
+}
+
+/* ---- Whole message container ---- */
+html.rtl-ai-enabled .rtl-ai-container {
+  direction: rtl !important;
+}
+
+/* ---- Lists: bullets/numbers on the right ---- */
+html.rtl-ai-enabled .rtl-ai-rtl ul,
+html.rtl-ai-enabled .rtl-ai-rtl ol,
+html.rtl-ai-enabled .rtl-ai-container ul,
+html.rtl-ai-enabled .rtl-ai-container ol {
+  direction: rtl !important;
+  text-align: right !important;
+  padding-inline-start: 0 !important;
+  padding-inline-end: 1.6em !important;
+  list-style-position: outside !important;
+}
+html.rtl-ai-enabled .rtl-ai-ltr ul,
+html.rtl-ai-enabled .rtl-ai-ltr ol {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* ---- User input box (smart auto direction) ---- */
+html.rtl-ai-enabled textarea,
+html.rtl-ai-enabled [contenteditable="true"],
+html.rtl-ai-enabled [role="textbox"] {
+  unicode-bidi: plaintext !important;
+  text-align: start !important;
+}
+
+/* ---- Code blocks always LTR and left-aligned ---- */
+html.rtl-ai-enabled pre,
+html.rtl-ai-enabled code,
+html.rtl-ai-enabled pre *,
+html.rtl-ai-enabled code * {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: left !important;
+}
+/* Inline code inside Persian text must not break paragraph layout */
+html.rtl-ai-enabled .rtl-ai-rtl code {
+  unicode-bidi: isolate !important;
+}
+
+/* ---- Tables ---- */
+html.rtl-ai-enabled .rtl-ai-rtl table,
+html.rtl-ai-enabled .rtl-ai-container table {
+  direction: rtl !important;
+}

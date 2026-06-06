@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed to read tags
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Tag format: v1.0.0 -> version: 1.0.0
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Update manifests with version
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          for f in manifests/manifest.chrome.json manifests/manifest.firefox.json; do
+            sed -i "s/\"version\"[[:space:]]*:[[:space:]]*\"[0-9.]*\"/\"version\": \"$VERSION\"/" "$f"
+            echo "Updated $f to v$VERSION"
+          done
+
+      - name: Clean dist folder
+        run: |
+          rm -rf dist
+          mkdir -p dist
+
+      - name: Build extensions
+        run: |
+          chmod +x build.sh
+          ./build.sh both
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.zip
+          generate_release_notes: true

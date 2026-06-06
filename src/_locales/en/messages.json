@@ -1,0 +1,8 @@
+{
+  "extensionName": {
+    "message": "RTL for AI Sites"
+  },
+  "extensionDescription": {
+    "message": "Smart right-to-left for AI sites like Claude, ChatGPT, Gemini, Grok, DeepSeek, Perplexity, Copilot, Poe and Arena."
+  }
+}
